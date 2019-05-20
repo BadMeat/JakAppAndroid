@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_navigation"
+            app:startDestination="@id/police">
+
+    <fragment
+            android:id="@+id/police"
+            android:name="com.example.smartjakapp.fragment.PoliceFragment"
+            android:label="PoliceFragment"/>
+    <fragment
+            android:id="@+id/hospital"
+            android:name="com.example.smartjakapp.fragment.HospitalFragment"
+            android:label="HospitalFragment"/>
+    <fragment
+            android:id="@+id/satpolpp"
+            android:name="com.example.smartjakapp.fragment.SatpolPPFragment"
+            android:label="SatpolPPFragment"/>
+</navigation>
