@@ -1,30 +1,41 @@
 package com.example.smartjakapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.smartjakapp.R
-import com.example.smartjakapp.model.Police
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.smartjakapp.Police.PoliceAdapter
+import com.example.smartjakapp.model.Data
 import com.example.smartjakapp.presenter.PolicePresenter
 import com.example.smartjakapp.view.PoliceView
-import org.jetbrains.anko.*
-import retrofit2.Response
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.linearLayout
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView {
 
-    override fun getData(response: Response<List<Police>>) {
-        Log.d("Response", "${response.body()}")
+    private var data: MutableList<Data> = mutableListOf()
+    private lateinit var adapter: PoliceAdapter
+    private lateinit var recycler: RecyclerView
+
+    override fun getData(response: List<Data>?) {
+        if (response != null) {
+            data.addAll(response)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
         linearLayout {
             lparams(matchParent, matchParent)
-            textView {
-                text = resources.getString(R.string.police)
-            }
+            recycler = recyclerView {
+                layoutManager = LinearLayoutManager(context)
+            }.lparams(matchParent, matchParent)
         }
     }
 
@@ -40,5 +51,7 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     private fun initialize() {
         val ab = PolicePresenter(this)
         ab.loadData()
+        adapter = PoliceAdapter(data)
+        recycler.adapter = adapter
     }
 }

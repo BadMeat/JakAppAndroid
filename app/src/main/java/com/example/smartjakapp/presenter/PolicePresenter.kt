@@ -18,13 +18,11 @@ class PolicePresenter(
             .getListPolice()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-//            .map {
-//                Log.d("bodyqu", "$it")
-//                it.body()?.data
-//            }
+            .map {
+                it.body()?.data
+            }
             .subscribe(
                 { result ->
-                    Log.e("Resultku ", "Resulto ${result.code()}")
                     mainView.getData(result)
                 },
                 { error -> Log.e("Error Response", "Error $error") }

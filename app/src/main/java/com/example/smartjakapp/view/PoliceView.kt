@@ -1,12 +1,10 @@
 package com.example.smartjakapp.view
 
-import com.example.smartjakapp.model.Police
-import retrofit2.Response
+import com.example.smartjakapp.model.Data
 
 interface PoliceView {
     interface MainView {
-        //        fun getData(response: List<DataItem>?)
-        fun getData(response: Response<List<Police>>)
+        fun getData(response: List<Data>?)
     }
 
     interface PresenterView {
