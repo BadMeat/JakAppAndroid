@@ -2,4 +2,5 @@
 <resources>
     <item name="name" type="id"/>
     <item name="address" type="id"/>
+    <item name="jenis" type="id"/>
 </resources>
