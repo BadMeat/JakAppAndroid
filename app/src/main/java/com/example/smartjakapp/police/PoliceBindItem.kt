@@ -16,9 +16,12 @@ class PoliceBindItem(view: View) : RecyclerView.ViewHolder(view) {
     private val address: TextView = view.findViewById(R.id.alamat)
     private val image: ImageView = view.findViewById(R.id.gambar)
 
-    fun bindItem(e: Data) {
+    fun bindItem(e: Data, listener: (Data) -> Unit) {
         address.text = e.address
         name.text = e.name
         image.setImageResource(R.drawable.police)
+        itemView.setOnClickListener {
+            listener(e)
+        }
     }
 }

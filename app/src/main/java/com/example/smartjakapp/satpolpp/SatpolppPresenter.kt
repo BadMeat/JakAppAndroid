@@ -23,6 +23,12 @@ class SatpolppPresenter(
             .map {
                 it.body()?.data
             }
+            .doOnSubscribe {
+                mainView.loadingStart()
+            }
+            .doFinally {
+                mainView.loadingEnd()
+            }
             .subscribe(
                 { result -> mainView.getData(result) },
                 { error -> Log.e("Error", "Data Error $error") }

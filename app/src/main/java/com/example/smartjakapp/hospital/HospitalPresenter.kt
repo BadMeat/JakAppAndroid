@@ -19,8 +19,11 @@ class HospitalPresenter(private val mainView: HospitalView.MainView) : HospitalV
             .subscribeOn(Schedulers.io())
             .map {
                 it.body()?.features
-            }
-            .subscribe(
+            }.doOnSubscribe {
+                mainView.loadingStart()
+            }.doFinally {
+                mainView.loadingEnd()
+            }.subscribe(
                 { result -> mainView.getData(result) },
                 { error -> Log.e("Error", "Error res : $error") }
             )

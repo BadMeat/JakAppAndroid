@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartjakapp.R
+import com.example.smartjakapp.invisible
 import com.example.smartjakapp.model.satpolpp.Data
 import com.example.smartjakapp.satpolpp.SatpolppAdapter
 import com.example.smartjakapp.satpolpp.SatpolppPresenter
 import com.example.smartjakapp.satpolpp.SatpolppView
-import org.jetbrains.anko.AnkoComponent
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.linearLayout
-import org.jetbrains.anko.matchParent
+import com.example.smartjakapp.visible
+import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
 class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.MainView, SearchView.OnQueryTextListener {
@@ -27,6 +27,7 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     private lateinit var recycler: RecyclerView
     private lateinit var presenter: SatpolppPresenter
     private lateinit var searchView: SearchView
+    private lateinit var progressBar: ProgressBar
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
@@ -52,12 +53,26 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
         }
     }
 
+    override fun loadingStart() {
+        progressBar.visible()
+    }
+
+    override fun loadingEnd() {
+        progressBar.invisible()
+    }
+
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
-        linearLayout {
+        relativeLayout {
             lparams(matchParent, matchParent)
             recycler = recyclerView {
                 layoutManager = LinearLayoutManager(context)
             }.lparams(matchParent, matchParent)
+            progressBar = progressBar {
+
+            }.lparams(wrapContent, wrapContent) {
+                centerVertically()
+                centerHorizontally()
+            }
         }
     }
 

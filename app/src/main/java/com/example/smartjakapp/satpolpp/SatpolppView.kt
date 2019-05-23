@@ -8,6 +8,8 @@ import com.example.smartjakapp.model.satpolpp.Data
 interface SatpolppView {
     interface MainView {
         fun getData(data: List<Data>?)
+        fun loadingStart()
+        fun loadingEnd()
     }
 
     interface PresenterView {

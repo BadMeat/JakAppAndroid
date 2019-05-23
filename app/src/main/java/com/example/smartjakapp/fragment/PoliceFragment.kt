@@ -1,7 +1,6 @@
 package com.example.smartjakapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -11,6 +10,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartjakapp.DetailActivity
 import com.example.smartjakapp.R
 import com.example.smartjakapp.invisible
 import com.example.smartjakapp.model.police.Data
@@ -19,8 +19,8 @@ import com.example.smartjakapp.police.PolicePresenter
 import com.example.smartjakapp.police.PoliceView
 import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
-import org.jetbrains.anko.db.INTEGER
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.intentFor
 
 class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView, SearchView.OnQueryTextListener {
 
@@ -91,7 +91,9 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     private fun initialize() {
         val ab = PolicePresenter(this)
         ab.loadData()
-        adapter = PoliceAdapter(data)
+        adapter = PoliceAdapter(data) {
+            startActivity(intentFor<DetailActivity>())
+        }
         recycler.adapter = adapter
     }
 }

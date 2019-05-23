@@ -12,7 +12,8 @@ import com.example.smartjakapp.model.police.Data
 /**
  * Created by Bencoleng on 21/05/2019.
  */
-class PoliceAdapter(private val data: List<Data>) : RecyclerView.Adapter<PoliceBindItem>(), Filterable {
+class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -> Unit) :
+    RecyclerView.Adapter<PoliceBindItem>(), Filterable {
 
     private var filterData: List<Data> = data
 
@@ -27,7 +28,7 @@ class PoliceAdapter(private val data: List<Data>) : RecyclerView.Adapter<PoliceB
                     for (row: Data in data) {
                         val tempName = row.name.toLowerCase()
                         if (tempName.contains(input)) {
-                            Log.d("temp name ",row.name)
+                            Log.d("temp name ", row.name)
                             result.add(row)
                         }
                     }
@@ -56,7 +57,7 @@ class PoliceAdapter(private val data: List<Data>) : RecyclerView.Adapter<PoliceB
     override fun getItemCount(): Int = filterData.size
 
     override fun onBindViewHolder(holder: PoliceBindItem, position: Int) {
-        holder.bindItem(filterData[position])
+        holder.bindItem(filterData[position], listener)
     }
 }
 
