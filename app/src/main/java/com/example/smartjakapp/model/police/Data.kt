@@ -1,4 +1,4 @@
-package com.example.smartjakapp.model
+package com.example.smartjakapp.model.police
 
 
 import com.google.gson.annotations.SerializedName

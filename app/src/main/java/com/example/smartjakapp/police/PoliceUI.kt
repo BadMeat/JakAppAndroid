@@ -1,4 +1,4 @@
-package com.example.smartjakapp.Police
+package com.example.smartjakapp.police
 
 import android.graphics.Color
 import android.view.View
@@ -11,7 +11,7 @@ import org.jetbrains.anko.*
  */
 class PoliceUI : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
-        relativeLayout {
+        linearLayout {
             lparams(matchParent, wrapContent)
             relativeLayout {
                 backgroundColor = resources.getColor(R.color.skyblue, null)
@@ -24,13 +24,15 @@ class PoliceUI : AnkoComponent<ViewGroup> {
                     alignParentRight()
                     alignParentBottom()
                 }
+
                 /**
                  * Name
                  */
                 textView {
-                    id = R.id.address
-                    backgroundColor = Color.GREEN
-                }.lparams(matchParent, wrapContent) {
+                    id = R.id.jeneng
+                    backgroundColor = Color.RED
+                }.lparams(wrapContent, wrapContent) {
+//                    above(R.id.alamat)
                     alignParentBottom()
                 }
 
@@ -38,12 +40,14 @@ class PoliceUI : AnkoComponent<ViewGroup> {
                  * Address
                  */
                 textView {
-                    id = R.id.name
-                    backgroundColor = Color.RED
-                }.lparams(matchParent, wrapContent) {
-                    above(R.id.address)
+                    id = R.id.alamat
+                    backgroundColor = Color.GREEN
+                }.lparams(wrapContent, wrapContent) {
+//                    alignParentBottom()
+                    below(R.id.jeneng)
+//                    centerVertically()
                 }
-            }.lparams(matchParent, matchParent) {
+            }.lparams(wrapContent, wrapContent) {
                 margin = 20
             }
         }

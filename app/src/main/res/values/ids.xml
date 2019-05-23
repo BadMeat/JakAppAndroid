@@ -3,4 +3,9 @@
     <item name="name" type="id"/>
     <item name="address" type="id"/>
     <item name="jenis" type="id"/>
+    <item name="alamat" type="id"/>
+    <item name="jeneng" type="id"/>
+    <item name="gambar" type="id"/>
+    <item name="container_item" type="id"/>
+    <item name="search_action" type="id"/>
 </resources>

@@ -1,10 +1,12 @@
-package com.example.smartjakapp.view
+package com.example.smartjakapp.police
 
-import com.example.smartjakapp.model.Data
+import com.example.smartjakapp.model.police.Data
 
 interface PoliceView {
     interface MainView {
         fun getData(response: List<Data>?)
+        fun loadingStart()
+        fun loadingEnd()
     }
 
     interface PresenterView {

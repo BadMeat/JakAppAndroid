@@ -1,24 +1,60 @@
 package com.example.smartjakapp.hospital
 
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartjakapp.Police.PoliceUI
+import com.example.smartjakapp.R
 import com.example.smartjakapp.model.hospital.Feature
-import org.jetbrains.anko.AnkoContext
 
 /**
  * Created by Bencoleng on 22/05/2019.
  */
-class HospitalAdapter(private val e: List<Feature>) : RecyclerView.Adapter<HospitalHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalHolder {
-        val anko = AnkoContext.create(parent.context, parent, false)
-        val ui = PoliceUI().createView(anko)
-        return HospitalHolder(ui)
+class HospitalAdapter(private val e: List<Feature>) : RecyclerView.Adapter<HospitalHolder>(), Filterable {
+
+    private var filterData: List<Feature> = e
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val input: String = constraint.toString().toLowerCase()
+                Log.d("inputan", input)
+                filterData = if (constraint.isNullOrEmpty()) {
+                    e
+                } else {
+                    val tempResult: MutableList<Feature> = mutableListOf()
+                    for (data: Feature in e) {
+                        val tempName = data.properties.namaRsu.toLowerCase()
+                        if (tempName.contains(input)) {
+                            Log.d("result", data.properties.namaRsu)
+                            tempResult.add(data)
+                        }
+                    }
+                    tempResult
+                }
+                val filterResult = FilterResults()
+                filterResult.values = filterData
+                return filterResult
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                if (results != null) {
+                    filterData = results.values as List<Feature>
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 
-    override fun getItemCount() = e.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalHolder {
+        return HospitalHolder(LayoutInflater.from(parent.context).inflate(R.layout.data_item, parent, false))
+    }
+
+    override fun getItemCount() = filterData.size
 
     override fun onBindViewHolder(holder: HospitalHolder, position: Int) {
-        holder.bindItem(e[position])
+        holder.bindItem(filterData[position])
     }
 }

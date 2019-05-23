@@ -2,11 +2,14 @@ package com.example.smartjakapp.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartjakapp.R
 import com.example.smartjakapp.model.satpolpp.Data
 import com.example.smartjakapp.satpolpp.SatpolppAdapter
 import com.example.smartjakapp.satpolpp.SatpolppPresenter
@@ -17,12 +20,30 @@ import org.jetbrains.anko.linearLayout
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 
-class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.MainView {
+class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.MainView, SearchView.OnQueryTextListener {
 
     private var e: MutableList<Data> = mutableListOf()
     private lateinit var adapter: SatpolppAdapter
     private lateinit var recycler: RecyclerView
     private lateinit var presenter: SatpolppPresenter
+    private lateinit var searchView: SearchView
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter.filter(newText)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        val myMenu = menu?.findItem(R.id.search_action)
+        searchView = myMenu?.actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+        searchView.setOnQueryTextListener(this)
+        super.onPrepareOptionsMenu(menu)
+    }
 
     override fun getData(data: List<Data>?) {
         if (data != null) {
@@ -41,6 +62,7 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return createView(AnkoContext.create(context!!, container!!, false))
     }
 

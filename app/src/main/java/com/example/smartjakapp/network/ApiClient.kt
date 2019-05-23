@@ -1,8 +1,8 @@
 package com.example.smartjakapp.network
 
 import com.example.smartjakapp.BuildConfig
-import com.example.smartjakapp.model.PoliceResponse
 import com.example.smartjakapp.model.hospital.HospitalResponse
+import com.example.smartjakapp.model.police.PoliceResponse
 import com.example.smartjakapp.model.satpolpp.SatpolppResponse
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable

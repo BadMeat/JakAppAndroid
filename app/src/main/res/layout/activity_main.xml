@@ -13,14 +13,15 @@
             app:contentInsetStart="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetEnd="0dp"
-            android:background="@color/skyblue"
             app:contentInsetRight="0dp"
+            android:background="@color/skyblue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <ImageView
-                android:src="@drawable/police"
-                android:layout_width="wrap_content"
+                android:layout_marginStart="50dp"
+                android:src="@drawable/jakarta"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"/>
     </androidx.appcompat.widget.Toolbar>
 
@@ -36,6 +37,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             app:menu="@menu/main_menu"
+            android:background="@color/skyblue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

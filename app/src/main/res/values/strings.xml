@@ -2,5 +2,6 @@
     <string name="app_name">SmartJakApp</string>
     <string name="hospital">Hospital</string>
     <string name="police">Police</string>
-    <string name="satpolpp">SatpolPP</string>
+    <string name="satpolpp">Satpol PP</string>
+    <string name="search">Searching</string>
 </resources>

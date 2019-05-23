@@ -1,8 +1,7 @@
-package com.example.smartjakapp.presenter
+package com.example.smartjakapp.police
 
 import android.util.Log
 import com.example.smartjakapp.network.ApiClient
-import com.example.smartjakapp.view.PoliceView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +19,12 @@ class PolicePresenter(
             .subscribeOn(Schedulers.io())
             .map {
                 it.body()?.data
+            }
+            .doOnSubscribe {
+                mainView.loadingStart()
+            }
+            .doFinally {
+                mainView.loadingEnd()
             }
             .subscribe(
                 { result ->
