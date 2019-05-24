@@ -4,4 +4,5 @@
     <string name="police">Police</string>
     <string name="satpolpp">Satpol PP</string>
     <string name="search">Searching</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
