@@ -10,14 +10,11 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartjakapp.MapsActivity
-import com.example.smartjakapp.R
-import com.example.smartjakapp.invisible
+import com.example.smartjakapp.*
 import com.example.smartjakapp.model.police.Data
 import com.example.smartjakapp.police.PoliceAdapter
 import com.example.smartjakapp.police.PolicePresenter
 import com.example.smartjakapp.police.PoliceView
-import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
@@ -93,7 +90,7 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
         ab.loadData()
         adapter = PoliceAdapter(data) {
             startActivity(
-                intentFor<MapsActivity>(
+                intentFor<MapBoxActivity>(
                     "lat" to it.lat,
                     "lng" to it.lng,
                     "name" to it.name

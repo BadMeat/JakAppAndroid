@@ -72,4 +72,12 @@ dependencies {
 
     //Maps
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.maps:google-maps-services:0.2.11'
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
+
+    //MapBox
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.26.0'
+    implementation('com.mapbox.mapboxsdk:mapbox-android-sdk:6.8.1') {
+        exclude group: 'group_name', module: 'module_name'
+    }
 }

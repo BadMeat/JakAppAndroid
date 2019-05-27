@@ -1,8 +1,10 @@
 package com.example.smartjakapp
 
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -14,6 +16,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.DirectionsApi
+import com.google.maps.GeoApiContext
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -24,6 +29,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private var name: String = ""
 
     private lateinit var lastLocation: Location
+
+    private val TAG = "so47492459"
+    private lateinit var target: LatLng
+    private lateinit var currentPosition: LatLng
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -57,15 +66,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         // Add a marker in Sydney and move the camera
 //        val sydney = LatLng(-34.0, 151.0)
-        val sydney = LatLng(lat, lng)
-        mMap.addMarker(MarkerOptions().position(sydney).title(name))
+        target = LatLng(lat, lng)
+        mMap.addMarker(MarkerOptions().position(target).title(name))
+
+        setupMap()
 
         /**
          * Zoom
          */
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12f))
-
-        setupMap()
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(target, 12f))
         mMap.uiSettings.isZoomControlsEnabled = true
         mMap.setOnMarkerClickListener(this)
     }
@@ -90,8 +99,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             if (location != null) {
                 lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                placeMarkOnMap(currentLatLng)
+                currentPosition = LatLng(location.latitude, location.longitude)
+                placeMarkOnMap(currentPosition)
+                getLine()
 //                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
@@ -100,6 +110,77 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun placeMarkOnMap(location: LatLng) {
         val markerOptions = MarkerOptions().position(location)
         mMap.addMarker(markerOptions)
+    }
+
+
+    private fun getLine() {
+        //Define list to get all latlng for the route
+        val path = mutableListOf<LatLng>()
+
+
+        //Execute Directions API request
+        val context = GeoApiContext.Builder()
+            .apiKey("AIzaSyC22BV1n7QmsvaF52e5gQ8p4Z7zedD6Uhg")
+            .build()
+        val req = DirectionsApi.getDirections(
+            context,
+            "${currentPosition.latitude},${currentPosition.longitude}",
+            "${target.latitude},${target.longitude}"
+        )
+        try {
+            val res = req.await()
+
+            //Loop through legs and steps to get encoded polylines of each step
+            if (res.routes != null && res.routes.isNotEmpty()) {
+                val route = res.routes[0]
+
+                if (route.legs != null) {
+                    for (i in route.legs.indices) {
+                        val leg = route.legs[i]
+                        if (leg.steps != null) {
+                            for (j in leg.steps.indices) {
+                                val step = leg.steps[j]
+                                if (step.steps != null && step.steps.isNotEmpty()) {
+                                    for (k in step.steps.indices) {
+                                        val step1 = step.steps[k]
+                                        val points1 = step1.polyline
+                                        if (points1 != null) {
+                                            //Decode polyline and add points to list of route coordinates
+                                            val coords1 = points1.decodePath()
+                                            for (coord1 in coords1) {
+                                                path.add(LatLng(coord1.lat, coord1.lng))
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    val points = step.polyline
+                                    if (points != null) {
+                                        //Decode polyline and add points to list of route coordinates
+                                        val coords = points.decodePath()
+                                        for (coord in coords) {
+                                            path.add(LatLng(coord.lat, coord.lng))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            Log.e(MapsActivity().TAG, ex.localizedMessage)
+        }
+
+
+        //Draw the polyline
+        if (path.size > 0) {
+            val opts = PolylineOptions().addAll(path).color(Color.BLUE).width(5f)
+            mMap.addPolyline(opts)
+        }
+
+        mMap.uiSettings.isZoomControlsEnabled = true
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 6f))
     }
 
 }
