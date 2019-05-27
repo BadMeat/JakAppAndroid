@@ -10,6 +10,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartjakapp.MapBoxActivity
 import com.example.smartjakapp.R
 import com.example.smartjakapp.invisible
 import com.example.smartjakapp.model.satpolpp.Data
@@ -19,6 +20,7 @@ import com.example.smartjakapp.satpolpp.SatpolppView
 import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.intentFor
 
 class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.MainView, SearchView.OnQueryTextListener {
 
@@ -38,8 +40,8 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        val myMenu = menu?.findItem(R.id.search_action)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val myMenu = menu.findItem(R.id.search_action)
         searchView = myMenu?.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(this)
@@ -89,7 +91,15 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     private fun initialize() {
         presenter = SatpolppPresenter(this)
         presenter.loadData()
-        adapter = SatpolppAdapter(e)
+        adapter = SatpolppAdapter(e) {
+            startActivity(
+                intentFor<MapBoxActivity>(
+                    "lat" to it.lat,
+                    "lng" to it.lng,
+                    "name" to it.nama
+                )
+            )
+        }
         recycler.adapter = adapter
     }
 

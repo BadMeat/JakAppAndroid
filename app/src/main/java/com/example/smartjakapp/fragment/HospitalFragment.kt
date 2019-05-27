@@ -10,6 +10,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartjakapp.MapBoxActivity
 import com.example.smartjakapp.R
 import com.example.smartjakapp.hospital.HospitalAdapter
 import com.example.smartjakapp.hospital.HospitalPresenter
@@ -19,6 +20,7 @@ import com.example.smartjakapp.model.hospital.Feature
 import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.intentFor
 
 class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.MainView, SearchView.OnQueryTextListener {
 
@@ -29,8 +31,8 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
     private lateinit var presenter: HospitalPresenter
     private lateinit var progressBar: ProgressBar
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        val myMenu = menu?.findItem(R.id.search_action)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val myMenu = menu.findItem(R.id.search_action)
         searchView = myMenu?.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(this)
@@ -89,7 +91,15 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
     private fun init() {
         presenter = HospitalPresenter(this)
         presenter.loadData()
-        adapter = HospitalAdapter(data)
+        adapter = HospitalAdapter(data) {
+            startActivity(
+                intentFor<MapBoxActivity>(
+                    "lat" to it.properties.location.latitude,
+                    "lng" to it.properties.location.longitude,
+                    "name" to it.properties.namaRsu
+                )
+            )
+        }
         recycler.adapter = adapter
     }
 

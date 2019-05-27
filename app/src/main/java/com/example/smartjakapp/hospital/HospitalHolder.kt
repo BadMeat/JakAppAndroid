@@ -17,14 +17,21 @@ class HospitalHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val nama: TextView = view.findViewById(R.id.jeneng)
     private val jenis: TextView = view.findViewById(R.id.alamat)
     private val gambar: ImageView = view.findViewById(R.id.gambar)
+    private val phone: TextView = view.findViewById(R.id.phone)
     private val conteiner: RelativeLayout = view.findViewById(R.id.container_item)
 
-    fun bindItem(e: Feature) {
+    fun bindItem(e: Feature, listener: (Feature) -> Unit) {
         nama.text = e.properties.namaRsu
         jenis.text = e.properties.jenisRsu
-        nama.setTextColor(Color.BLACK)
-        jenis.setTextColor(Color.BLACK)
+        var phones = ""
+        for (i in e.properties.telepon) {
+            phones += "$i\n"
+        }
+        phone.text = phones
         gambar.setImageResource(R.drawable.hospital)
-        conteiner.setBackgroundColor(Color.GREEN)
+        conteiner.setBackgroundColor(Color.parseColor("#FFA6C0"))
+        itemView.setOnClickListener {
+            listener(e)
+        }
     }
 }

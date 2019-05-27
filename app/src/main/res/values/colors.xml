@@ -3,6 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#DF0C0C</color>
-    <color name="skyblue">#00BCD4</color>
+    <color name="skyblue">#82CCCA</color>
     <color name="white">#FFFEFE</color>
+    <color name="testo">#BF00D4</color>
 </resources>

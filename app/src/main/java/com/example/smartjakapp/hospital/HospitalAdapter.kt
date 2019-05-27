@@ -12,7 +12,8 @@ import com.example.smartjakapp.model.hospital.Feature
 /**
  * Created by Bencoleng on 22/05/2019.
  */
-class HospitalAdapter(private val e: List<Feature>) : RecyclerView.Adapter<HospitalHolder>(), Filterable {
+class HospitalAdapter(private val e: List<Feature>, private val listener: (Feature) -> Unit) :
+    RecyclerView.Adapter<HospitalHolder>(), Filterable {
 
     private var filterData: List<Feature> = e
 
@@ -55,6 +56,6 @@ class HospitalAdapter(private val e: List<Feature>) : RecyclerView.Adapter<Hospi
     override fun getItemCount() = filterData.size
 
     override fun onBindViewHolder(holder: HospitalHolder, position: Int) {
-        holder.bindItem(filterData[position])
+        holder.bindItem(filterData[position], listener)
     }
 }

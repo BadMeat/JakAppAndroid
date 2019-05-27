@@ -11,7 +11,8 @@ import com.example.smartjakapp.model.satpolpp.Data
 /**
  * Created by Bencoleng on 21/05/2019.
  */
-class SatpolppAdapter(private val e: List<Data>) : RecyclerView.Adapter<SatpolppHolder>(), Filterable {
+class SatpolppAdapter(private val e: List<Data>, private val listener: (Data) -> Unit) :
+    RecyclerView.Adapter<SatpolppHolder>(), Filterable {
 
     private var filterData: List<Data> = e
 
@@ -52,6 +53,6 @@ class SatpolppAdapter(private val e: List<Data>) : RecyclerView.Adapter<Satpolpp
     override fun getItemCount() = filterData.size
 
     override fun onBindViewHolder(holder: SatpolppHolder, position: Int) {
-        holder.bindItem(filterData[position], R.drawable.satpolpp)
+        holder.bindItem(filterData[position], R.drawable.satpolpp, listener)
     }
 }

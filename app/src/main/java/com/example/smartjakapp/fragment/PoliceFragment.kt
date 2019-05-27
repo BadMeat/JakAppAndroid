@@ -32,8 +32,8 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        val myMenu = menu?.findItem(R.id.search_action)
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val myMenu = menu.findItem(R.id.search_action)
         searchView = myMenu?.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(this)

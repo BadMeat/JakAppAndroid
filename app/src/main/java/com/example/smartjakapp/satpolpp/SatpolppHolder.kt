@@ -20,12 +20,13 @@ class SatpolppHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val images: ImageView = view.findViewById(R.id.gambar)
     private val container: RelativeLayout = view.findViewById(R.id.container_item)
 
-    fun bindItem(e: Data, gambar: Int) {
+    fun bindItem(e: Data, gambar: Int, listener: (Data) -> Unit) {
         name.text = e.nama
         address.text = e.alamat
-        name.setTextColor(Color.BLACK)
-        address.setTextColor(Color.BLACK)
         images.imageResource = gambar
-        container.setBackgroundColor(Color.YELLOW)
+        container.setBackgroundColor(Color.parseColor("#66FFA3"))
+        itemView.setOnClickListener {
+            listener(e)
+        }
     }
 }

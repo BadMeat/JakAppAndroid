@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
+import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.ApiException
@@ -36,12 +36,13 @@ import kotlinx.android.synthetic.main.activity_map_box.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineListener, OnMapReadyCallback,
     MapboxMap.OnMapClickListener {
 
     //1
-    val REQUEST_CHECK_SETTINGS = 1
+    private val REQUEST_CHECK_SETTINGS = 1
     var settingsClient: SettingsClient? = null
 
     //2
@@ -55,7 +56,12 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
     var navigationMapRoute: NavigationMapRoute? = null
     var currentRoute: DirectionsRoute? = null
 
-    private var destiLocation: Location? = null
+    private var destyLocation: Location? = null
+
+
+    private var destiLat: Double? = null
+    private var destiLng: Double? = null
+    private var namePlace: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +70,9 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
             "pk.eyJ1IjoiYXJpZmtlYnVtZW4iLCJhIjoiY2p3MnpjYnd5MGRxczQ5cXI1YzloZ2x0MiJ9.XG0FrIa16ibCGqRT_ECfOQ"
         )
         setContentView(R.layout.activity_map_box)
+        destiLat = intent.getDoubleExtra("lat", 0.0)
+        destiLng = intent.getDoubleExtra("lng", 0.0)
+        namePlace = intent.getStringExtra("name")
         settingsClient = LocationServices.getSettingsClient(this)
         mapbox.onCreate(savedInstanceState)
         mapbox.getMapAsync(this)
@@ -77,10 +86,9 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
             NavigationLauncher.startNavigation(this, navigationLauncherOptions) //4
         }
         zoomIn.setOnClickListener {
-            if (destiLocation != null) {
-                setCameraPosition(destiLocation!!)
+            if (destyLocation != null) {
+                setCameraPosition(destyLocation!!)
             }
-
         }
     }
 
@@ -141,18 +149,18 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
     }
 
     override fun onMapClick(point: LatLng) {
-        if (map.markers.isNotEmpty()) {
-            map.clear()
-        }
-        map.addMarker(MarkerOptions().position(point))
-        map.addMarker(MarkerOptions().setTitle("I'm a marker :]").position(point))
-        checkLocation()
-        originLocation?.run {
-            val startPoint = Point.fromLngLat(longitude, latitude)
-            val endPoint = Point.fromLngLat(point.longitude, point.latitude)
-
-            getRoute(startPoint, endPoint)
-        }
+//        if (map.markers.isNotEmpty()) {
+//            map.clear()
+//        }
+//        map.addMarker(MarkerOptions().position(point))
+//        map.addMarker(MarkerOptions().setTitle("I'm a marker :]").position(point))
+//        checkLocation()
+//        originLocation?.run {
+//            val startPoint = Point.fromLngLat(longitude, latitude)
+//            val endPoint = Point.fromLngLat(point.longitude, point.latitude)
+//
+//            getRoute(startPoint, endPoint)
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -209,15 +217,15 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
         mapbox.onLowMemory()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
         if (outState != null) {
             mapbox.onSaveInstanceState(outState)
         }
     }
 
     //1
-    fun enableLocation() {
+    private fun enableLocation() {
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
             initializeLocationComponent()
             initializeLocationEngine()
@@ -237,6 +245,7 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
         locationEngine?.addLocationEngineListener(this)
 
         val lastLocation = locationEngine?.lastLocation
+
         if (lastLocation != null) {
             originLocation = lastLocation
             setCameraPosition(lastLocation)
@@ -254,8 +263,8 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
     }
 
     //3
-    fun setCameraPosition(location: Location) {
-        destiLocation = Location(location)
+    private fun setCameraPosition(location: Location) {
+        destyLocation = Location(location)
         map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
                 LatLng(
@@ -264,9 +273,28 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
                 ), 30.0
             )
         )
+        /**
+         * Get Routes
+         */
+//        if (map.markers.isNotEmpty()) {
+//            map.clear()
+//        }
+        val destiLatLang = LatLng(destiLat!!, destiLng!!)
+        map.addMarker(MarkerOptions().position(destiLatLang))
+        map.addMarker(
+            MarkerOptions().setTitle(namePlace)
+                .setSnippet("Ini Polisi ya, jangan Macem Macem").position(destiLatLang)
+        )
+        checkLocation()
+        originLocation?.run {
+            val startPoint = Point.fromLngLat(longitude, latitude)
+            val endPoint = Point.fromLngLat(destiLng!!, destiLat!!)
+
+            getRoute(startPoint, endPoint)
+        }
     }
 
-    fun getRoute(originPoint: Point, endPoint: Point) {
+    private fun getRoute(originPoint: Point, endPoint: Point) {
         btnNavigate.isEnabled = true
         NavigationRoute.builder(this) //1
             .accessToken(Mapbox.getAccessToken()!!) //2
@@ -275,7 +303,7 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
             .build() //5
             .getRoute(object : Callback<DirectionsResponse> { //6
                 override fun onFailure(call: Call<DirectionsResponse>, t: Throwable) {
-                    Log.d("MapBoxActivity", t.localizedMessage)
+                    Timber.d(t.localizedMessage)
                 }
 
                 override fun onResponse(

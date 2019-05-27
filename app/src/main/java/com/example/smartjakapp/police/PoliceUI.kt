@@ -32,7 +32,6 @@ class PoliceUI : AnkoComponent<ViewGroup> {
                     id = R.id.jeneng
                     backgroundColor = Color.RED
                 }.lparams(wrapContent, wrapContent) {
-//                    above(R.id.alamat)
                     alignParentBottom()
                 }
 
@@ -43,9 +42,7 @@ class PoliceUI : AnkoComponent<ViewGroup> {
                     id = R.id.alamat
                     backgroundColor = Color.GREEN
                 }.lparams(wrapContent, wrapContent) {
-//                    alignParentBottom()
                     below(R.id.jeneng)
-//                    centerVertically()
                 }
             }.lparams(wrapContent, wrapContent) {
                 margin = 20

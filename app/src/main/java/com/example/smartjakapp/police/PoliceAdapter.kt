@@ -13,7 +13,7 @@ import com.example.smartjakapp.model.police.Data
  * Created by Bencoleng on 21/05/2019.
  */
 class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -> Unit) :
-    RecyclerView.Adapter<PoliceBindItem>(), Filterable {
+    RecyclerView.Adapter<PoliceHolder>(), Filterable {
 
     private var filterData: List<Data> = data
 
@@ -49,14 +49,14 @@ class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PoliceBindItem {
-//        return PoliceBindItem(PoliceUI().createView(AnkoContext.create(parent.context, parent, false)))
-        return PoliceBindItem(LayoutInflater.from(parent.context).inflate(R.layout.data_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PoliceHolder {
+//        return PoliceHolder(PoliceUI().createView(AnkoContext.create(parent.context, parent, false)))
+        return PoliceHolder(LayoutInflater.from(parent.context).inflate(R.layout.data_item, parent, false))
     }
 
     override fun getItemCount(): Int = filterData.size
 
-    override fun onBindViewHolder(holder: PoliceBindItem, position: Int) {
+    override fun onBindViewHolder(holder: PoliceHolder, position: Int) {
         holder.bindItem(filterData[position], listener)
     }
 }
