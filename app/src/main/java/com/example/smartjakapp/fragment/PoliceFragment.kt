@@ -141,9 +141,9 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     }
 
     private fun initialize() {
-        val ab = PolicePresenter(this)
+        val ab = PolicePresenter(this, context)
         ab.loadData()
-        ab.selectFavorite(context, favorited)
+        ab.selectFavorite(favorited)
         adapter = PoliceAdapter(data, {
             startActivity(
                 intentFor<PoliceDetailActivity>(

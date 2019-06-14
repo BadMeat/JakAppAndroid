@@ -15,9 +15,6 @@ interface PoliceView {
         fun loadData()
         fun onDestroy()
         fun saveData(data: Data, context: Context?)
-        fun addFavorite(data: Data, context: Context?)
-        fun selectFavorite(context: Context?, favorited: MutableList<Int>)
-        fun selectFavoriteId(data: Data, context: Context?): Boolean
-        fun deleteFavorite(data: Data, context: Context?)
+        fun selectFavorite(favorited: MutableList<Int>)
     }
 }

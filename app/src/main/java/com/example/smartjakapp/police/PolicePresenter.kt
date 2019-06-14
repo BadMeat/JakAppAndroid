@@ -15,9 +15,11 @@ import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
 class PolicePresenter(
-    private val mainView: PoliceView.MainView
+    private val mainView: PoliceView.MainView,
+    private val context: Context?
 ) : PoliceView.PresenterView {
-    override fun addFavorite(data: Data, context: Context?) {
+
+    private fun addFavorite(data: Data) {
         context?.database?.use {
             insert(
                 Favorite.TABLE_FAVORITE,
@@ -32,7 +34,7 @@ class PolicePresenter(
         Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
     }
 
-    override fun selectFavorite(context: Context?, favorited: MutableList<Int>) {
+    override fun selectFavorite(favorited: MutableList<Int>) {
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
             val favorite = result.parseList(classParser<Favorite>())
@@ -42,7 +44,7 @@ class PolicePresenter(
         }
     }
 
-    override fun selectFavoriteId(data: Data, context: Context?): Boolean {
+    private fun selectFavoriteId(data: Data): Boolean {
         var isFavorited = false
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
@@ -53,7 +55,7 @@ class PolicePresenter(
         return isFavorited
     }
 
-    override fun deleteFavorite(data: Data, context: Context?) {
+    private fun deleteFavorite(data: Data) {
         context?.database?.use {
             delete(
                 Favorite.TABLE_FAVORITE, "(ID_ITEM = {id})",
@@ -64,10 +66,10 @@ class PolicePresenter(
     }
 
     override fun saveData(data: Data, context: Context?) {
-        if (selectFavoriteId(data, context)) {
-            deleteFavorite(data, context)
+        if (selectFavoriteId(data)) {
+            deleteFavorite(data)
         } else {
-            addFavorite(data, context)
+            addFavorite(data)
         }
     }
 
