@@ -7,6 +7,7 @@ interface PoliceView {
         fun getData(response: List<Data>?)
         fun loadingStart()
         fun loadingEnd()
+        fun loadingError(error : String?)
     }
 
     interface PresenterView {

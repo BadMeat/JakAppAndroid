@@ -1,6 +1,5 @@
 package com.example.smartjakapp.police
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -12,7 +11,12 @@ import com.example.smartjakapp.model.police.Data
 /**
  * Created by Bencoleng on 21/05/2019.
  */
-class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -> Unit) :
+class PoliceAdapter(
+    private val data: List<Data>,
+    private val listener: (Data) -> Unit,
+    private val fav: (Data) -> Unit,
+    private val favorited: List<Int>
+) :
     RecyclerView.Adapter<PoliceHolder>(), Filterable {
 
     private var filterData: List<Data> = data
@@ -28,7 +32,6 @@ class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -
                     for (row: Data in data) {
                         val tempName = row.name.toLowerCase()
                         if (tempName.contains(input)) {
-                            Log.d("temp name ", row.name)
                             result.add(row)
                         }
                     }
@@ -57,7 +60,7 @@ class PoliceAdapter(private val data: List<Data>, private val listener: (Data) -
     override fun getItemCount(): Int = filterData.size
 
     override fun onBindViewHolder(holder: PoliceHolder, position: Int) {
-        holder.bindItem(filterData[position], listener)
+        holder.bindItem(filterData[position], listener, fav, favorited)
     }
 }
 

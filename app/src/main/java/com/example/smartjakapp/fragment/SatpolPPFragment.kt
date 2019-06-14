@@ -1,12 +1,10 @@
 package com.example.smartjakapp.fragment
 
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.SearchView
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +28,9 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     private lateinit var presenter: SatpolppPresenter
     private lateinit var searchView: SearchView
     private lateinit var progressBar: ProgressBar
+    lateinit var imageLogo : ImageView
+    private lateinit var title: TextView
+    private lateinit var detail: TextView
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
@@ -52,6 +53,7 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
         if (data != null) {
             e.addAll(data)
             adapter.notifyDataSetChanged()
+            startAnimation()
         }
     }
 
@@ -63,17 +65,63 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
         progressBar.invisible()
     }
 
+    override fun loadingError(error: String?) {
+        Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+    }
+
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
         relativeLayout {
             lparams(matchParent, matchParent)
+
+            /**
+             * Header Image Dan Text
+             */
+            relativeLayout {
+                id = R.id.place_holder
+                imageLogo = imageView {
+                    id = R.id.logo
+                    setImageResource(R.drawable.satpolpp_logo)
+                }.lparams(wrapContent, wrapContent)
+                linearLayout {
+                    weightSum = 3f
+                    orientation = LinearLayout.VERTICAL
+                    title = textView {
+                        text = "POLRI"
+                        textColor = Color.WHITE
+                        gravity = Gravity.CENTER
+                    }.lparams(matchParent, 0) {
+                        weight = 1f
+                    }
+                    detail = textView {
+                        text = "Kepolisian Nasional di Indonesia, yang bertanggung jawab langsung di bawah Presiden"
+                        textColor = Color.WHITE
+                    }.lparams(matchParent, 0) {
+                        weight = 2f
+                    }
+                }.lparams(matchParent, wrapContent) {
+                    endOf(R.id.logo)
+                    sameBottom(R.id.logo)
+                    sameTop(R.id.logo)
+                    marginStart = 25
+                }
+            }.lparams(matchParent, wrapContent)
+
+
+
+
+
             recycler = recyclerView {
                 layoutManager = LinearLayoutManager(context)
-            }.lparams(matchParent, matchParent)
+                background = resources.getDrawable(R.drawable.gradient_bg, null)
+            }.lparams(matchParent, matchParent) {
+                below(R.id.place_holder)
+                topMargin = 10
+            }
             progressBar = progressBar {
 
             }.lparams(wrapContent, wrapContent) {
-                centerVertically()
                 centerHorizontally()
+                centerVertically()
             }
         }
     }
@@ -101,6 +149,14 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
             )
         }
         recycler.adapter = adapter
+        imageLogo.animation = AnimationUtils.loadAnimation(context,R.anim.image_fade_in)
+        title.animation = AnimationUtils.loadAnimation(context, R.anim.title_come)
+        detail.animation = AnimationUtils.loadAnimation(context, R.anim.detail_come)
+    }
+
+    private fun startAnimation() {
+        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down)
+        recycler.scheduleLayoutAnimation()
     }
 
     override fun onDestroy() {

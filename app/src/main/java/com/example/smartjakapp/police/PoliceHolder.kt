@@ -1,9 +1,7 @@
 package com.example.smartjakapp.police
 
-import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartjakapp.R
@@ -17,15 +15,26 @@ class PoliceHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val name: TextView = view.findViewById(R.id.jeneng)
     private val address: TextView = view.findViewById(R.id.alamat)
     private val image: ImageView = view.findViewById(R.id.gambar)
-    private val container: RelativeLayout = view.findViewById(R.id.container_item)
+    private val favorite: ImageView = view.findViewById(R.id.favorite)
 
-    fun bindItem(e: Data, listener: (Data) -> Unit) {
+    fun bindItem(e: Data, listener: (Data) -> Unit, fav: (Data) -> Unit, favoritedId: List<Int>) {
         address.text = e.address
         name.text = e.name
         image.setImageResource(R.drawable.police)
-        container.setBackgroundColor(Color.parseColor("#7A9998"))
         itemView.setOnClickListener {
             listener(e)
+        }
+        favorite.setImageResource(R.drawable.favorite)
+
+        for (i in 0 until favoritedId.size) {
+            if (e.placemarkId == favoritedId[i]) {
+                favorite.setImageResource(R.drawable.favorited)
+                break
+            }
+        }
+
+        favorite.setOnClickListener {
+            fav(e)
         }
     }
 }

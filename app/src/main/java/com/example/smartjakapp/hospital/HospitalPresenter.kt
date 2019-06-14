@@ -25,7 +25,7 @@ class HospitalPresenter(private val mainView: HospitalView.MainView) : HospitalV
                 mainView.loadingEnd()
             }.subscribe(
                 { result -> mainView.getData(result) },
-                { error -> Log.e("Error", "Error res : $error") }
+                { error -> mainView.loadingError(error.localizedMessage) }
             )
     }
 

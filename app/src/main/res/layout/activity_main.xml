@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/skyblue"
         android:orientation="vertical"
         tools:context=".MainActivity">
 
@@ -14,16 +15,26 @@
             app:contentInsetLeft="0dp"
             app:contentInsetEnd="0dp"
             app:contentInsetRight="0dp"
-            android:background="@color/skyblue"
+            android:background="@drawable/gradient_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <ImageView
-                android:layout_marginStart="50dp"
-                android:src="@drawable/jakarta"
+        <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="wrap_content"/>
+
+        <!--<ImageView-->
+        <!--android:layout_marginStart="50dp"-->
+        <!--android:src="@drawable/jakarta"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"/>-->
     </androidx.appcompat.widget.Toolbar>
+
+    <!--<ImageView-->
+    <!--android:background="@color/skyblue"-->
+    <!--android:src="@drawable/police_logo"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"/>-->
 
     <fragment
             android:id="@+id/nav_host_fragment"
@@ -37,7 +48,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_view"
             app:menu="@menu/main_menu"
-            android:background="@color/skyblue"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

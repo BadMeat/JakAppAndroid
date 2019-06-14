@@ -3,22 +3,32 @@
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         app:cardCornerRadius="20dp"
         app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/transparant"
         android:layout_margin="5dp"
         android:layout_height="wrap_content">
 
     <RelativeLayout
             android:id="@id/container_item"
             android:layout_width="match_parent"
-            android:background="@color/colorAccent"
+            android:background="@color/transparant"
             android:layout_height="wrap_content">
 
         <ImageView
+                android:id="@id/favorite"
+                android:layout_margin="10dp"
+                android:background="@drawable/favorite"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
                 android:id="@id/gambar"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_alignParentEnd="true"/>
 
         <LinearLayout
@@ -30,20 +40,22 @@
 
             <TextView
                     android:id="@id/jeneng"
-                    android:text="Alamat Ini Adlaah Iya"
+                    tools:text="Alamat Ini Adlaah Iya"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             <TextView
                     android:id="@id/phone"
-                    android:text=" - "
+                    android:text="@string/kosong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             <TextView
+                    android:textColor="@android:color/darker_gray"
                     android:layout_marginBottom="10dp"
                     android:id="@id/alamat"
-                    android:text="@string/app_name"
+                    tools:text="@string/app_name"
+                    android:textSize="12sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </LinearLayout>

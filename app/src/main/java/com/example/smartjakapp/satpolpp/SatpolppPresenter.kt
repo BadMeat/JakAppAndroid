@@ -1,6 +1,5 @@
 package com.example.smartjakapp.satpolpp
 
-import android.util.Log
 import com.example.smartjakapp.network.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -31,7 +30,7 @@ class SatpolppPresenter(
             }
             .subscribe(
                 { result -> mainView.getData(result) },
-                { error -> Log.e("Error", "Data Error $error") }
+                { error -> mainView.loadingError(error.localizedMessage) }
             )
 
     }

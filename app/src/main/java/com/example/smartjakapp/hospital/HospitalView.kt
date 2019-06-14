@@ -10,6 +10,7 @@ interface HospitalView {
         fun getData(e : List<Feature>?)
         fun loadingStart()
         fun loadingEnd()
+        fun loadingError(error : String?)
     }
 
     interface PresenterView {

@@ -10,6 +10,7 @@ interface SatpolppView {
         fun getData(data: List<Data>?)
         fun loadingStart()
         fun loadingEnd()
+        fun loadingError(error : String?)
     }
 
     interface PresenterView {

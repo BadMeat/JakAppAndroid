@@ -2,6 +2,7 @@ package com.example.smartjakapp.model.police
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Data(
     val address: String,
@@ -10,4 +11,4 @@ data class Data(
     val name: String,
     @SerializedName("placemark_id")
     val placemarkId: Int
-)
+) : Serializable

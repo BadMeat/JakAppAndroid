@@ -1,6 +1,5 @@
 package com.example.smartjakapp.police
 
-import android.util.Log
 import com.example.smartjakapp.network.ApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -30,7 +29,7 @@ class PolicePresenter(
                 { result ->
                     mainView.getData(result)
                 },
-                { error -> Log.e("Error Response", "Error $error") }
+                { error -> mainView.loadingError(error.localizedMessage) }
             )
     }
 

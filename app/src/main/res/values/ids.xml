@@ -9,4 +9,8 @@
     <item name="container_item" type="id"/>
     <item name="search_action" type="id"/>
     <item name="phone" type="id"/>
+    <item name="logo" type="id"/>
+    <item name="place_holder" type="id"/>
+    <item name="favorite" type="id"/>
+    <item name="position" type="id"/>
 </resources>

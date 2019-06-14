@@ -47,7 +47,7 @@ class SatpolppAdapter(private val e: List<Data>, private val listener: (Data) ->
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SatpolppHolder {
-        return SatpolppHolder(LayoutInflater.from(parent.context).inflate(R.layout.data_item, parent, false))
+        return SatpolppHolder(LayoutInflater.from(parent.context).inflate(R.layout.satpolpp_item, parent, false))
     }
 
     override fun getItemCount() = filterData.size

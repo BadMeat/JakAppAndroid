@@ -16,4 +16,8 @@
             android:id="@+id/satpolpp"
             android:name="com.example.smartjakapp.fragment.SatpolPPFragment"
             android:label="SatpolPPFragment"/>
+    <fragment
+            android:id="@+id/favorite"
+            android:name="com.example.smartjakapp.fragment.FavoriteFragment"
+            android:label="FavoriteFragment"/>
 </navigation>
