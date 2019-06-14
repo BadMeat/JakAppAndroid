@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartjakapp.R
-import com.example.smartjakapp.db.Favorite
-import com.example.smartjakapp.db.database
 import com.example.smartjakapp.invisible
 import com.example.smartjakapp.model.police.Data
 import com.example.smartjakapp.police.PoliceAdapter
@@ -20,15 +18,10 @@ import com.example.smartjakapp.police.PolicePresenter
 import com.example.smartjakapp.police.PoliceView
 import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.insert
-import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
 
 class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView, SearchView.OnQueryTextListener {
-
-
     private var data: MutableList<Data> = mutableListOf()
     private var favorited: MutableList<Int> = mutableListOf()
     private lateinit var adapter: PoliceAdapter
@@ -150,7 +143,7 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     private fun initialize() {
         val ab = PolicePresenter(this)
         ab.loadData()
-        selectFavorite()
+        ab.selectFavorite(context, favorited)
         adapter = PoliceAdapter(data, {
             startActivity(
                 intentFor<PoliceDetailActivity>(
@@ -161,36 +154,11 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
                 ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }, {
-            addFavorite(it)
+            ab.saveData(it, context)
         }, favorited)
         recycler.adapter = adapter
         imageLogo.animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in)
         title.animation = AnimationUtils.loadAnimation(context, R.anim.title_come)
         detail.animation = AnimationUtils.loadAnimation(context, R.anim.detail_come)
-    }
-
-    private fun addFavorite(data: Data) {
-        context?.database?.use {
-            insert(
-                Favorite.TABLE_FAVORITE,
-                Favorite.ID_ITEM to data.placemarkId,
-                Favorite.NAME to data.name,
-                Favorite.PHONE to 62,
-                Favorite.ADDRESS to data.address,
-                Favorite.LAT to data.lat,
-                Favorite.LNG to data.lng
-            )
-        }
-        Toast.makeText(context, "Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun selectFavorite() {
-        context?.database?.use {
-            val result = select(Favorite.TABLE_FAVORITE)
-            val favorite = result.parseList(classParser<Favorite>())
-            for (i: Favorite in favorite) {
-                favorited.add(i.id_item)
-            }
-        }
     }
 }

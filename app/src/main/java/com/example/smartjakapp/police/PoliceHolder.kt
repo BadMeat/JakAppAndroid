@@ -24,16 +24,26 @@ class PoliceHolder(view: View) : RecyclerView.ViewHolder(view) {
         itemView.setOnClickListener {
             listener(e)
         }
+
+        var isFavorited = false
+
         favorite.setImageResource(R.drawable.favorite)
 
         for (i in 0 until favoritedId.size) {
             if (e.placemarkId == favoritedId[i]) {
                 favorite.setImageResource(R.drawable.favorited)
+                isFavorited = true
                 break
             }
         }
 
         favorite.setOnClickListener {
+            isFavorited = !isFavorited
+            if (isFavorited) {
+                favorite.setImageResource(R.drawable.favorited)
+            } else {
+                favorite.setImageResource(R.drawable.favorite)
+            }
             fav(e)
         }
     }
