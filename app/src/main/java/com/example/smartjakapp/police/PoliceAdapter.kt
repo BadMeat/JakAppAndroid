@@ -14,7 +14,7 @@ import com.example.smartjakapp.model.police.Data
 class PoliceAdapter(
     private val data: List<Data>,
     private val listener: (Data) -> Unit,
-    private val fav: (Data) -> Unit,
+    private val fav: (Any) -> Unit,
     private val favorited: List<Int>
 ) :
     RecyclerView.Adapter<PoliceHolder>(), Filterable {
@@ -42,7 +42,7 @@ class PoliceAdapter(
                 return filterResult
             }
 
-            //            @Suppress("UNCHECKED_CAST")
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 if (results != null) {
                     filterData = results.values as List<Data>

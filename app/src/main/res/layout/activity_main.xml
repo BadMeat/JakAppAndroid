@@ -22,19 +22,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-        <!--<ImageView-->
-        <!--android:layout_marginStart="50dp"-->
-        <!--android:src="@drawable/jakarta"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"/>-->
     </androidx.appcompat.widget.Toolbar>
-
-    <!--<ImageView-->
-    <!--android:background="@color/skyblue"-->
-    <!--android:src="@drawable/police_logo"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"/>-->
 
     <fragment
             android:id="@+id/nav_host_fragment"

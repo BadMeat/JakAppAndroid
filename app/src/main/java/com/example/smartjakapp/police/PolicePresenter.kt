@@ -28,18 +28,24 @@ class PolicePresenter(
                 Favorite.PHONE to 62,
                 Favorite.ADDRESS to data.address,
                 Favorite.LAT to data.lat,
-                Favorite.LNG to data.lng
+                Favorite.LNG to data.lng,
+                Favorite.TYPE to 1
             )
         }
         Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
     }
 
-    override fun selectFavorite(favorited: MutableList<Int>) {
+    private fun selectFavorite(favorited: MutableList<Int>) {
         context?.database?.use {
-            val result = select(Favorite.TABLE_FAVORITE)
+            val result = select(Favorite.TABLE_FAVORITE).whereArgs(
+                "(TYPE_ = {type})",
+                "type" to 1
+            )
             val favorite = result.parseList(classParser<Favorite>())
             for (i: Favorite in favorite) {
-                favorited.add(i.id_item)
+                if (i.id_item != null) {
+                    favorited.add(i.id_item)
+                }
             }
         }
     }
@@ -48,7 +54,11 @@ class PolicePresenter(
         var isFavorited = false
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
-                .whereArgs("(ID_ITEM = {id})", "id" to data.placemarkId)
+                .whereArgs(
+                    "(ID_ITEM = {id} AND TYPE_ = {type})",
+                    "id" to data.placemarkId,
+                    "type" to 1
+                )
             val favorite = result.parseList(classParser<Favorite>())
             if (!favorite.isNullOrEmpty()) isFavorited = true
         }
@@ -65,7 +75,7 @@ class PolicePresenter(
         Toast.makeText(context, "Berhasil dihapus dari favorite", Toast.LENGTH_SHORT).show()
     }
 
-    override fun saveData(data: Data, context: Context?) {
+    override fun saveData(data: Data) {
         if (selectFavoriteId(data)) {
             deleteFavorite(data)
         } else {
@@ -75,7 +85,7 @@ class PolicePresenter(
 
     private var disposable: Disposable? = null
 
-    override fun loadData() {
+    override fun loadData(favorited: MutableList<Int>) {
         disposable = ApiClient.instance
             .getListPolice()
             .observeOn(AndroidSchedulers.mainThread())
@@ -95,6 +105,7 @@ class PolicePresenter(
                 },
                 { error -> mainView.loadingError(error.localizedMessage) }
             )
+        selectFavorite(favorited)
     }
 
     override fun onDestroy() {

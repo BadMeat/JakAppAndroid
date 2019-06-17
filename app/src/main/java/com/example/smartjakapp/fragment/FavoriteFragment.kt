@@ -37,6 +37,10 @@ class FavoriteFragment : Fragment() {
     private fun selectFavorite() {
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
+                .whereArgs(
+                    "(TYPE_ = {type})",
+                    "type" to 1
+                )
             val favorite = result.parseList(classParser<Favorite>())
             data.addAll(favorite)
         }

@@ -4,13 +4,14 @@ package com.example.smartjakapp.db
  * Created by Bencoleng on 11/06/2019.
  */
 data class Favorite(
-    val id: Long,
-    val id_item: Int,
-    val name: String,
-    val phone: Int,
-    val addres: String,
-    val lat: Double,
-    val lng: Double
+    val id: Long?,
+    val id_item: Int?,
+    val name: String?,
+    val phone: String?,
+    val addres: String?,
+    val lat: Double?,
+    val lng: Double?,
+    val type: Int?
 ) {
     companion object {
         const val TABLE_FAVORITE: String = "TABLE_FAVORITE"
@@ -21,5 +22,6 @@ data class Favorite(
         const val ADDRESS: String = "FAV_ADDRESS"
         const val LAT: String = "FAV_LAT"
         const val LNG: String = "FAV_LNG"
+        const val TYPE: String = "TYPE_"
     }
 }

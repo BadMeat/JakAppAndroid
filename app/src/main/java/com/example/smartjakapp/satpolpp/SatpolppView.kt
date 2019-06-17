@@ -1,5 +1,6 @@
 package com.example.smartjakapp.satpolpp
 
+import android.content.Context
 import com.example.smartjakapp.model.satpolpp.Data
 
 /**
@@ -14,7 +15,8 @@ interface SatpolppView {
     }
 
     interface PresenterView {
-        fun loadData()
+        fun loadData(favorited: MutableList<Int>)
         fun onDestroy()
+        fun saveData(data : Data)
     }
 }

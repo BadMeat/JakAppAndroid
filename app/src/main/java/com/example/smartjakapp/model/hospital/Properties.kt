@@ -4,7 +4,7 @@ package com.example.smartjakapp.model.hospital
 import com.google.gson.annotations.SerializedName
 
 data class Properties(
-    val email: Any,
+    val email: Any?,
     val faximile: List<String>,
     val id: Int,
     @SerializedName("jenis_rsu")
@@ -21,5 +21,5 @@ data class Properties(
     @SerializedName("nama_rsu")
     val namaRsu: String,
     val telepon: List<String>,
-    val website: Any
+    val website: Any?
 )

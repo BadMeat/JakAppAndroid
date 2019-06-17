@@ -1,6 +1,5 @@
 package com.example.smartjakapp.hospital
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -12,7 +11,12 @@ import com.example.smartjakapp.model.hospital.Feature
 /**
  * Created by Bencoleng on 22/05/2019.
  */
-class HospitalAdapter(private val e: List<Feature>, private val listener: (Feature) -> Unit) :
+class HospitalAdapter(
+    private val e: List<Feature>,
+    private val listener: (Feature) -> Unit,
+    private val fav: (Any) -> Unit,
+    private val favoritedId: List<Int>
+) :
     RecyclerView.Adapter<HospitalHolder>(), Filterable {
 
     private var filterData: List<Feature> = e
@@ -21,7 +25,6 @@ class HospitalAdapter(private val e: List<Feature>, private val listener: (Featu
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val input: String = constraint.toString().toLowerCase()
-                Log.d("inputan", input)
                 filterData = if (constraint.isNullOrEmpty()) {
                     e
                 } else {
@@ -29,7 +32,6 @@ class HospitalAdapter(private val e: List<Feature>, private val listener: (Featu
                     for (data: Feature in e) {
                         val tempName = data.properties.namaRsu.toLowerCase()
                         if (tempName.contains(input)) {
-                            Log.d("result", data.properties.namaRsu)
                             tempResult.add(data)
                         }
                     }
@@ -40,6 +42,7 @@ class HospitalAdapter(private val e: List<Feature>, private val listener: (Featu
                 return filterResult
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 if (results != null) {
                     filterData = results.values as List<Feature>
@@ -50,12 +53,12 @@ class HospitalAdapter(private val e: List<Feature>, private val listener: (Featu
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HospitalHolder {
-        return HospitalHolder(LayoutInflater.from(parent.context).inflate(R.layout.data_item, parent, false))
+        return HospitalHolder(LayoutInflater.from(parent.context).inflate(R.layout.hospital_item, parent, false))
     }
 
     override fun getItemCount() = filterData.size
 
     override fun onBindViewHolder(holder: HospitalHolder, position: Int) {
-        holder.bindItem(filterData[position], listener)
+        holder.bindItem(filterData[position], listener, fav, favoritedId)
     }
 }

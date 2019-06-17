@@ -28,9 +28,12 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     private lateinit var presenter: SatpolppPresenter
     private lateinit var searchView: SearchView
     private lateinit var progressBar: ProgressBar
-    lateinit var imageLogo : ImageView
+    lateinit var imageLogo: ImageView
     private lateinit var title: TextView
     private lateinit var detail: TextView
+
+    //Favorited DB
+    private var favorited: MutableList<Int> = mutableListOf()
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
@@ -137,9 +140,9 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     }
 
     private fun initialize() {
-        presenter = SatpolppPresenter(this)
-        presenter.loadData()
-        adapter = SatpolppAdapter(e) {
+        presenter = SatpolppPresenter(this,context)
+        presenter.loadData(favorited)
+        adapter = SatpolppAdapter(e, {
             startActivity(
                 intentFor<MapBoxActivity>(
                     "lat" to it.lat,
@@ -147,9 +150,12 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
                     "name" to it.nama
                 )
             )
-        }
+        }, {
+            it as Data
+            presenter.saveData(it)
+        }, favorited)
         recycler.adapter = adapter
-        imageLogo.animation = AnimationUtils.loadAnimation(context,R.anim.image_fade_in)
+        imageLogo.animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in)
         title.animation = AnimationUtils.loadAnimation(context, R.anim.title_come)
         detail.animation = AnimationUtils.loadAnimation(context, R.anim.detail_come)
     }

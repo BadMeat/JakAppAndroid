@@ -11,7 +11,11 @@ import com.example.smartjakapp.model.satpolpp.Data
 /**
  * Created by Bencoleng on 21/05/2019.
  */
-class SatpolppAdapter(private val e: List<Data>, private val listener: (Data) -> Unit) :
+class SatpolppAdapter(
+    private val e: List<Data>, private val listener: (Data) -> Unit,
+    private val fav: (Any) -> Unit,
+    private val favorited: List<Int>
+) :
     RecyclerView.Adapter<SatpolppHolder>(), Filterable {
 
     private var filterData: List<Data> = e
@@ -37,6 +41,7 @@ class SatpolppAdapter(private val e: List<Data>, private val listener: (Data) ->
                 return filterResult
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 if (results != null) {
                     filterData = results.values as List<Data>
@@ -53,6 +58,6 @@ class SatpolppAdapter(private val e: List<Data>, private val listener: (Data) ->
     override fun getItemCount() = filterData.size
 
     override fun onBindViewHolder(holder: SatpolppHolder, position: Int) {
-        holder.bindItem(filterData[position], R.drawable.satpolpp, listener)
+        holder.bindItem(filterData[position], listener, fav, favorited)
     }
 }

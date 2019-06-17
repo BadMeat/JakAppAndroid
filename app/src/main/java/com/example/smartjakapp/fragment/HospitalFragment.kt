@@ -23,12 +23,13 @@ import org.jetbrains.anko.support.v4.intentFor
 class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.MainView, SearchView.OnQueryTextListener {
 
     private lateinit var searchView: SearchView
-    private var data: MutableList<Feature> = mutableListOf()
+    private val data: MutableList<Feature> = mutableListOf()
+    private val favoritedId: MutableList<Int> = mutableListOf()
     private lateinit var adapter: HospitalAdapter
     private lateinit var recycler: RecyclerView
     private lateinit var presenter: HospitalPresenter
     private lateinit var progressBar: ProgressBar
-    lateinit var imageLogo : ImageView
+    lateinit var imageLogo: ImageView
 
     private lateinit var title: TextView
     private lateinit var detail: TextView
@@ -138,9 +139,9 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
     }
 
     private fun init() {
-        presenter = HospitalPresenter(this)
-        presenter.loadData()
-        adapter = HospitalAdapter(data) {
+        presenter = HospitalPresenter(this, context)
+        presenter.loadData(favoritedId)
+        adapter = HospitalAdapter(data, {
             startActivity(
                 intentFor<MapBoxActivity>(
                     "lat" to it.properties.location.latitude,
@@ -148,9 +149,12 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
                     "name" to it.properties.namaRsu
                 )
             )
-        }
+        }, {
+            it as Feature
+            presenter.saveData(it)
+        }, favoritedId)
         recycler.adapter = adapter
-        imageLogo.animation = AnimationUtils.loadAnimation(context,R.anim.image_fade_in)
+        imageLogo.animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in)
         title.animation = AnimationUtils.loadAnimation(context, R.anim.title_come)
         detail.animation = AnimationUtils.loadAnimation(context, R.anim.detail_come)
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@id/police"
+            android:title="@string/police"
+            android:icon="@drawable/security"/>
+    <item
+            android:id="@id/satpolpp"
+            android:title="@string/satpolpp"
+            android:icon="@drawable/satpolppicon"/>
+    <item
+            android:id="@id/hospital"
+            android:title="@string/hospital"
+            android:icon="@drawable/hospitaliconpng"/>
+</menu>

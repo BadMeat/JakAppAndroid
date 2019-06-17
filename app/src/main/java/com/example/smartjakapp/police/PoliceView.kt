@@ -1,6 +1,5 @@
 package com.example.smartjakapp.police
 
-import android.content.Context
 import com.example.smartjakapp.model.police.Data
 
 interface PoliceView {
@@ -12,9 +11,8 @@ interface PoliceView {
     }
 
     interface PresenterView {
-        fun loadData()
+        fun loadData(favorited: MutableList<Int>)
         fun onDestroy()
-        fun saveData(data: Data, context: Context?)
-        fun selectFavorite(favorited: MutableList<Int>)
+        fun saveData(data: Data)
     }
 }

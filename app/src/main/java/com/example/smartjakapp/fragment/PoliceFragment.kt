@@ -142,8 +142,7 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
 
     private fun initialize() {
         val ab = PolicePresenter(this, context)
-        ab.loadData()
-        ab.selectFavorite(favorited)
+        ab.loadData(favorited)
         adapter = PoliceAdapter(data, {
             startActivity(
                 intentFor<PoliceDetailActivity>(
@@ -154,7 +153,8 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
                 ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }, {
-            ab.saveData(it, context)
+            it as Data
+            ab.saveData(it)
         }, favorited)
         recycler.adapter = adapter
         imageLogo.animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in)

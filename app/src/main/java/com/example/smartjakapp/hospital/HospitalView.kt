@@ -14,7 +14,8 @@ interface HospitalView {
     }
 
     interface PresenterView {
-        fun loadData()
+        fun loadData(favorited: MutableList<Int>)
         fun onDestroy()
+        fun saveData(data: Feature)
     }
 }
