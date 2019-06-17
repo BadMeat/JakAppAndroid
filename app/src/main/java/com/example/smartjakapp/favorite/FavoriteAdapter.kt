@@ -25,10 +25,12 @@ class FavoriteAdapter(private val data: List<Favorite>) : RecyclerView.Adapter<F
     class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val name: TextView = view.findViewById(R.id.name)
+        private val phone: TextView = view.findViewById(R.id.phone)
         private val address: TextView = view.findViewById(R.id.address)
 
         fun bindItem(fav: Favorite) {
             name.text = fav.name
+            phone.text = fav.phone
             address.text = fav.addres
         }
     }

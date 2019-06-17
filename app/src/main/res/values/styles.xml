@@ -7,7 +7,7 @@
         <item name="windowActionBar">false</item>
         <item name="colorPrimaryDark">@color/skyblue</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">@font/ubtuntu</item>
     </style>
 

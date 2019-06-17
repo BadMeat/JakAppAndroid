@@ -13,6 +13,6 @@
     <item name="place_holder" type="id"/>
     <item name="favorite" type="id"/>
     <item name="position" type="id"/>
-    <item name="website" type="id"/>
     <item name="email" type="id"/>
+    <item name="website" type="id"/>
 </resources>

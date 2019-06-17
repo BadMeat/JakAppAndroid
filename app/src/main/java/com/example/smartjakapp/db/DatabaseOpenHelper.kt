@@ -7,7 +7,7 @@ import org.jetbrains.anko.db.*
 /**
  * Created by Bencoleng on 11/06/2019.
  */
-class DatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorite.db", null, 2) {
+class DatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorite.db", null, 3) {
 
     companion object {
         private var instance: DatabaseOpenHelper? = null

@@ -27,7 +27,7 @@ class HospitalPresenter(
     private fun addFavorite(data: Feature) {
         var phone = ""
         for (i: String in data.properties.telepon) {
-            phone += "$i\n"
+            phone += "$i,"
         }
         context?.database?.use {
             insert(
@@ -48,7 +48,7 @@ class HospitalPresenter(
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE).whereArgs(
                 "(TYPE_ = {type})",
-                "type" to 1
+                "type" to 3
             )
             val favorite = result.parseList(classParser<Favorite>())
             for (i: Favorite in favorite) {

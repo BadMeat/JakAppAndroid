@@ -37,6 +37,7 @@
             android:id="@+id/bottom_navigation_view"
             app:menu="@menu/main_menu"
             android:background="@color/white"
+            app:itemTextColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

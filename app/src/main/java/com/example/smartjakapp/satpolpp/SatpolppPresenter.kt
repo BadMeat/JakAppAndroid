@@ -31,7 +31,7 @@ class SatpolppPresenter(
                 Favorite.TABLE_FAVORITE,
                 Favorite.ID_ITEM to data.userid,
                 Favorite.NAME to data.nama,
-                Favorite.PHONE to 62,
+                Favorite.PHONE to data.phone,
                 Favorite.ADDRESS to data.alamat,
                 Favorite.LAT to data.lat,
                 Favorite.LNG to data.lng,
@@ -72,7 +72,7 @@ class SatpolppPresenter(
         context?.database?.use {
             delete(
                 Favorite.TABLE_FAVORITE,
-                "(ID_ITEM = {id} AND TYPE_ {type})",
+                "(ID_ITEM = {id} AND TYPE_ = {type})",
                 "id" to data.userid,
                 "type" to 2
             )

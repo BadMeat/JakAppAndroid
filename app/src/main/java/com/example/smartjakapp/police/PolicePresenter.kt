@@ -25,7 +25,7 @@ class PolicePresenter(
                 Favorite.TABLE_FAVORITE,
                 Favorite.ID_ITEM to data.placemarkId,
                 Favorite.NAME to data.name,
-                Favorite.PHONE to 62,
+                Favorite.PHONE to " - ",
                 Favorite.ADDRESS to data.address,
                 Favorite.LAT to data.lat,
                 Favorite.LNG to data.lng,

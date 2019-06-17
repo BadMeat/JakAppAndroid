@@ -22,7 +22,7 @@ class HospitalHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bindItem(e: Feature, listener: (Feature) -> Unit, fav: (Any) -> Unit, favoriteId: List<Int>) {
         name.text = e.properties.namaRsu
-        address.text = e.properties.jenisRsu
+        address.text = e.properties.location.alamat
         var phones = ""
         for (i in e.properties.telepon) {
             phones += "$i\n"
