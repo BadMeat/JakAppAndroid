@@ -40,15 +40,16 @@ class FavoriteFragment : Fragment() {
         val adapterPolice = FavoriteAdapter(dataPolice)
         val adapterSatpolpp = FavoriteAdapter(dataSatpolpp)
         val adapterHospital = FavoriteAdapter(dataHospital)
+        val kosong = resources.getString(R.string.kosong)
 
         if (dataPolice.isNullOrEmpty()) {
-            dataPolice.add(0, Favorite(0, 0, " - ", " - ", " - ", 12.0, 12.0, 1))
+            dataPolice.add(0, Favorite(0, 0, kosong, kosong, kosong, 12.0, 12.0, 1))
         }
         if (dataSatpolpp.isNullOrEmpty()) {
-            dataSatpolpp.add(0, Favorite(0, 0, " - ", " - ", " - ", 12.0, 12.0, 1))
+            dataSatpolpp.add(0, Favorite(0, 0, kosong, kosong, kosong, 12.0, 12.0, 1))
         }
         if (dataHospital.isNullOrEmpty()) {
-            dataHospital.add(0, Favorite(0, 0, " - ", " - ", " - ", 12.0, 12.0, 1))
+            dataHospital.add(0, Favorite(0, 0, kosong, kosong, kosong, 12.0, 12.0, 1))
         }
 
         /**

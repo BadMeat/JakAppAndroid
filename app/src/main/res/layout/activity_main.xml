@@ -10,14 +10,17 @@
         tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
+            android:elevation="20dp"
+            android:layout_margin="10dp"
             android:id="@+id/toolbar"
             app:contentInsetStart="0dp"
+            app:menu="@menu/search_menu"
             app:contentInsetLeft="0dp"
             app:contentInsetEnd="0dp"
             app:contentInsetRight="0dp"
-            android:background="@drawable/gradient_toolbar"
+            android:background="@color/transparant"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="40dp">
 
         <TextView
                 android:layout_width="match_parent"
@@ -25,6 +28,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <fragment
+            android:layout_marginTop="5dp"
             android:id="@+id/nav_host_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
