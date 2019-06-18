@@ -11,56 +11,127 @@
         android:layout_height="wrap_content">
 
     <RelativeLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@id/favorite"
-                android:layout_margin="10dp"
                 android:background="@drawable/favorite"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
+
+        <ImageView
+                android:layout_alignBottom="@id/name"
+                android:layout_alignTop="@id/name"
+                android:id="@+id/name_tag"
+                android:src="@drawable/nametag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
+
+        <TextView
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/name_tag"
+                android:id="@id/name"
+                tools:text="Tarakan"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_margin="10dp"
+        <ImageView
+                android:layout_alignBottom="@id/phone"
+                android:layout_alignTop="@id/phone"
+                android:layout_below="@id/name_tag"
+                android:id="@+id/phone_tag"
+                android:src="@drawable/phonetag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
+
+        <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/phone_tag"
+                android:layout_below="@id/name"
+                android:id="@id/phone"
+                tools:text="3503150,3503150,3508993"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@id/name"
-                    android:textSize="20sp"
-                    tools:text="Tarakan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <ImageView
+                android:layout_alignBottom="@id/website"
+                android:layout_alignTop="@id/website"
+                android:layout_below="@id/phone"
+                android:id="@+id/website_tag"
+                android:src="@drawable/website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
 
-            <TextView
-                    android:id="@id/phone"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    tools:text="3503150\n3503150\n3508993"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/website_tag"
+                android:layout_below="@id/phone"
+                android:id="@id/website"
+                tools:text="www.rstarakanjakarta.com"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@id/website"
-                    tools:text="www.rstarakanjakarta.com"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <ImageView
+                android:layout_alignBottom="@id/email"
+                android:layout_alignTop="@id/email"
+                android:layout_below="@id/website"
+                android:id="@+id/email_tag"
+                android:src="@drawable/emailtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
 
-            <TextView
-                    android:id="@id/email"
-                    tools:text="kusmedi@gmail.com, rsd_tarakan@yahoo.com"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/email_tag"
+                android:layout_below="@id/website"
+                android:id="@id/email"
+                tools:text="kusmedi@gmail.com, rsd_tarakan@yahoo.com"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@id/address"
-                    tools:text="Jl. Kyai Caringin No. 7"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+        <ImageView
+                android:layout_alignBottom="@id/address"
+                android:layout_alignTop="@id/address"
+                android:layout_below="@id/email"
+                android:id="@+id/address_tag"
+                android:src="@drawable/locationtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
+
+        <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/address_tag"
+                android:layout_below="@id/email"
+                android:id="@id/address"
+                tools:text="Jl. Kyai Caringin No. 7"
+                android:textColor="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

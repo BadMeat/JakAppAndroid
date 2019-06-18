@@ -11,6 +11,14 @@ fun View.invisible() {
     visibility = View.GONE
 }
 
+fun setNullData(data: String?, kosong: String): String? {
+    return if (data != null && data != "null") {
+        data
+    } else {
+        kosong
+    }
+}
+
 fun checkExistDb(favoritedId: List<Int>, id: Int, favorite: ImageView, fav: (Any) -> Unit, unit: Any) {
 
     var isFavorited = false

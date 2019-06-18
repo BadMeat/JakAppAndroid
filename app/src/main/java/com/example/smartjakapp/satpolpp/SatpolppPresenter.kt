@@ -13,35 +13,40 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import java.lang.ref.WeakReference
 
 /**
  * Created by Bencoleng on 21/05/2019.
  */
 class SatpolppPresenter(
     private val mainView: SatpolppView.MainView,
-    private val context: Context?
+    private val contexts: WeakReference<Context?>
 ) : SatpolppView.PresenterView {
 
 
     private var disposable: Disposable? = null
 
     private fun addFavorite(data: Data) {
-        context?.database?.use {
-            insert(
-                Favorite.TABLE_FAVORITE,
-                Favorite.ID_ITEM to data.userid,
-                Favorite.NAME to data.nama,
-                Favorite.PHONE to data.phone,
-                Favorite.ADDRESS to data.alamat,
-                Favorite.LAT to data.lat,
-                Favorite.LNG to data.lng,
-                Favorite.TYPE to 2
-            )
+        val context = contexts.get()
+        if (context != null) {
+            context.database.use {
+                insert(
+                    Favorite.TABLE_FAVORITE,
+                    Favorite.ID_ITEM to data.userid,
+                    Favorite.NAME to data.nama,
+                    Favorite.PHONE to data.phone,
+                    Favorite.ADDRESS to data.alamat,
+                    Favorite.LAT to data.lat,
+                    Favorite.LNG to data.lng,
+                    Favorite.TYPE to 2
+                )
+            }
+            Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
     }
 
     private fun selectFavorite(favorited: MutableList<Int>) {
+        val context = contexts.get()
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
             val favorite = result.parseList(classParser<Favorite>())
@@ -55,6 +60,7 @@ class SatpolppPresenter(
 
     private fun selectFavoriteId(data: Data): Boolean {
         var isFavorited = false
+        val context = contexts.get()
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
                 .whereArgs(
@@ -69,15 +75,18 @@ class SatpolppPresenter(
     }
 
     private fun deleteFavorite(data: Data) {
-        context?.database?.use {
-            delete(
-                Favorite.TABLE_FAVORITE,
-                "(ID_ITEM = {id} AND TYPE_ = {type})",
-                "id" to data.userid,
-                "type" to 2
-            )
+        val context = contexts.get()
+        if (context != null) {
+            context.database.use {
+                delete(
+                    Favorite.TABLE_FAVORITE,
+                    "(ID_ITEM = {id} AND TYPE_ = {type})",
+                    "id" to data.userid,
+                    "type" to 2
+                )
+            }
+            Toast.makeText(context, "Berhasil dihapus dari favorite", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, "Berhasil dihapus dari favorite", Toast.LENGTH_SHORT).show()
     }
 
     override fun saveData(data: Data) {

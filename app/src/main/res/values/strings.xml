@@ -8,9 +8,12 @@
     <string name="kosong">-</string>
     <string name="adress">Address :</string>
     <string name="phone">Phone :</string>
+    <string name="position">Position :</string>
     <string name="route">Maps</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_icon">Image Icon</string>
+    <string name="police_quote">Kepolisian Nasional di Indonesia, yang bertanggung jawab langsung di bawah Presiden</string>
+    <string name="satpol_pp_quote">perangkat Pemerintah Daerah dalam memelihara ketentraman dan ketertiban umum serta menegakkan Peraturan Daerah</string>
+    <string name="hospital_quote">sebuah institusi perawatan kesehatan profesional yang pelayanannya disediakan oleh dokter, perawat, dan tenaga ahli kesehatan lainnya.</string>
+    <string name="website">Website :</string>
+    <string name="email">Email :</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.smartjakapp.model.hospital
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Properties(
     val email: Any?,
@@ -22,4 +23,4 @@ data class Properties(
     val namaRsu: String,
     val telepon: List<String>,
     val website: Any?
-)
+) : Serializable

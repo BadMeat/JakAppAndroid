@@ -20,6 +20,7 @@ import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
+import java.lang.ref.WeakReference
 
 class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView, SearchView.OnQueryTextListener {
     private var data: MutableList<Data> = mutableListOf()
@@ -31,6 +32,7 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     private lateinit var imageLogo: ImageView
     private lateinit var title: TextView
     private lateinit var detail: TextView
+    private lateinit var presenter: PolicePresenter
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
@@ -54,10 +56,8 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
         if (response != null) {
             data.addAll(response)
             adapter.notifyDataSetChanged()
-            if (response.isNotEmpty()) {
-                recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down)
-                recycler.scheduleLayoutAnimation()
-            }
+            recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down)
+            recycler.scheduleLayoutAnimation()
         }
     }
 
@@ -90,14 +90,14 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
                     weightSum = 3f
                     orientation = LinearLayout.VERTICAL
                     title = textView {
-                        text = "POLRI"
+                        text = resources.getString(R.string.police)
                         textColor = Color.WHITE
                         gravity = Gravity.CENTER
                     }.lparams(matchParent, 0) {
                         weight = 1f
                     }
                     detail = textView {
-                        text = "Kepolisian Nasional di Indonesia, yang bertanggung jawab langsung di bawah Presiden"
+                        text = resources.getString(R.string.police_quote)
                         textColor = Color.WHITE
                     }.lparams(matchParent, 0) {
                         weight = 2f
@@ -141,8 +141,9 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
     }
 
     private fun initialize() {
-        val ab = PolicePresenter(this, context)
-        ab.loadData(favorited)
+        val weak = WeakReference(context)
+        presenter = PolicePresenter(this, weak)
+        presenter.loadData(favorited)
         adapter = PoliceAdapter(data, {
             startActivity(
                 intentFor<PoliceDetailActivity>(
@@ -154,11 +155,18 @@ class PoliceFragment : Fragment(), AnkoComponent<ViewGroup>, PoliceView.MainView
             )
         }, {
             it as Data
-            ab.saveData(it)
+            presenter.saveData(it)
         }, favorited)
         recycler.adapter = adapter
         imageLogo.animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in)
         title.animation = AnimationUtils.loadAnimation(context, R.anim.title_come)
         detail.animation = AnimationUtils.loadAnimation(context, R.anim.detail_come)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::presenter.isInitialized) {
+            presenter.onDestroy()
+        }
     }
 }

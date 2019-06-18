@@ -13,29 +13,34 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import java.lang.ref.WeakReference
 
 class PolicePresenter(
     private val mainView: PoliceView.MainView,
-    private val context: Context?
+    private val contexts: WeakReference<Context?>
 ) : PoliceView.PresenterView {
 
     private fun addFavorite(data: Data) {
-        context?.database?.use {
-            insert(
-                Favorite.TABLE_FAVORITE,
-                Favorite.ID_ITEM to data.placemarkId,
-                Favorite.NAME to data.name,
-                Favorite.PHONE to " - ",
-                Favorite.ADDRESS to data.address,
-                Favorite.LAT to data.lat,
-                Favorite.LNG to data.lng,
-                Favorite.TYPE to 1
-            )
+        val context = this.contexts.get()
+        if (context != null) {
+            context.database.use {
+                insert(
+                    Favorite.TABLE_FAVORITE,
+                    Favorite.ID_ITEM to data.placemarkId,
+                    Favorite.NAME to data.name,
+                    Favorite.PHONE to " - ",
+                    Favorite.ADDRESS to data.address,
+                    Favorite.LAT to data.lat,
+                    Favorite.LNG to data.lng,
+                    Favorite.TYPE to 1
+                )
+            }
+            Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, "Berhasil ditambahkan ke favorite", Toast.LENGTH_SHORT).show()
     }
 
     private fun selectFavorite(favorited: MutableList<Int>) {
+        val context = this.contexts.get()
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE).whereArgs(
                 "(TYPE_ = {type})",
@@ -52,6 +57,7 @@ class PolicePresenter(
 
     private fun selectFavoriteId(data: Data): Boolean {
         var isFavorited = false
+        val context = this.contexts.get()
         context?.database?.use {
             val result = select(Favorite.TABLE_FAVORITE)
                 .whereArgs(
@@ -63,16 +69,22 @@ class PolicePresenter(
             if (!favorite.isNullOrEmpty()) isFavorited = true
         }
         return isFavorited
+
     }
 
     private fun deleteFavorite(data: Data) {
-        context?.database?.use {
-            delete(
-                Favorite.TABLE_FAVORITE, "(ID_ITEM = {id})",
-                "id" to data.placemarkId
-            )
+        val context = this.contexts.get()
+        if (context != null) {
+            context.database.use {
+                delete(
+                    Favorite.TABLE_FAVORITE, "(ID_ITEM = {id})",
+                    "id" to data.placemarkId
+                )
+            }
+            Toast.makeText(context, "Berhasil dihapus dari favorite", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(context, "Berhasil dihapus dari favorite", Toast.LENGTH_SHORT).show()
+
+
     }
 
     override fun saveData(data: Data) {

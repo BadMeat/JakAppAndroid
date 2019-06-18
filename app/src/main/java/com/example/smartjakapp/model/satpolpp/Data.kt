@@ -2,6 +2,7 @@ package com.example.smartjakapp.model.satpolpp
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Data(
     val alamat: String,
@@ -14,4 +15,4 @@ data class Data(
     val phone: String,
     val userid: Int,
     val wilayah: String
-)
+) : Serializable

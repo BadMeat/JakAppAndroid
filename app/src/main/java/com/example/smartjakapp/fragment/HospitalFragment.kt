@@ -1,5 +1,6 @@
 package com.example.smartjakapp.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -8,9 +9,9 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartjakapp.MapBoxActivity
 import com.example.smartjakapp.R
 import com.example.smartjakapp.hospital.HospitalAdapter
+import com.example.smartjakapp.hospital.HospitalDetailActivity
 import com.example.smartjakapp.hospital.HospitalPresenter
 import com.example.smartjakapp.hospital.HospitalView
 import com.example.smartjakapp.invisible
@@ -88,14 +89,14 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
                     weightSum = 3f
                     orientation = LinearLayout.VERTICAL
                     title = textView {
-                        text = "POLRI"
+                        text = resources.getString(R.string.hospital)
                         textColor = Color.WHITE
                         gravity = Gravity.CENTER
                     }.lparams(matchParent, 0) {
                         weight = 1f
                     }
                     detail = textView {
-                        text = "Kepolisian Nasional di Indonesia, yang bertanggung jawab langsung di bawah Presiden"
+                        text = resources.getString(R.string.hospital_quote)
                         textColor = Color.WHITE
                     }.lparams(matchParent, 0) {
                         weight = 2f
@@ -143,11 +144,9 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
         presenter.loadData(favoritedId)
         adapter = HospitalAdapter(data, {
             startActivity(
-                intentFor<MapBoxActivity>(
-                    "lat" to it.properties.location.latitude,
-                    "lng" to it.properties.location.longitude,
-                    "name" to it.properties.namaRsu
-                )
+                intentFor<HospitalDetailActivity>(
+                    "all" to it
+                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }, {
             it as Feature
@@ -167,6 +166,8 @@ class HospitalFragment : Fragment(), AnkoComponent<ViewGroup>, HospitalView.Main
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        if (::presenter.isInitialized) {
+            presenter.onDestroy()
+        }
     }
 }

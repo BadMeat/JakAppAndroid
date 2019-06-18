@@ -24,8 +24,15 @@ class HospitalHolder(view: View) : RecyclerView.ViewHolder(view) {
         name.text = e.properties.namaRsu
         address.text = e.properties.location.alamat
         var phones = ""
-        for (i in e.properties.telepon) {
-            phones += "$i\n"
+//        for (i in e.properties.telepon) {
+//            phones += "$i,"
+//        }
+        for (i in 0 until e.properties.telepon.size) {
+            phones += if (i < e.properties.telepon.size - 1) {
+                "${e.properties.telepon[i]},"
+            } else {
+                e.properties.telepon[i]
+            }
         }
         phone.text = phones
         website.text = e.properties.website?.toString()

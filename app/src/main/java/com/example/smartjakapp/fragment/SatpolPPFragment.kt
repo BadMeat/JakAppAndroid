@@ -1,5 +1,6 @@
 package com.example.smartjakapp.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -8,17 +9,18 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smartjakapp.MapBoxActivity
 import com.example.smartjakapp.R
 import com.example.smartjakapp.invisible
 import com.example.smartjakapp.model.satpolpp.Data
 import com.example.smartjakapp.satpolpp.SatpolppAdapter
+import com.example.smartjakapp.satpolpp.SatpolppDetailActivity
 import com.example.smartjakapp.satpolpp.SatpolppPresenter
 import com.example.smartjakapp.satpolpp.SatpolppView
 import com.example.smartjakapp.visible
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.intentFor
+import java.lang.ref.WeakReference
 
 class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.MainView, SearchView.OnQueryTextListener {
 
@@ -89,14 +91,14 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
                     weightSum = 3f
                     orientation = LinearLayout.VERTICAL
                     title = textView {
-                        text = "POLRI"
+                        text = resources.getString(R.string.satpolpp)
                         textColor = Color.WHITE
                         gravity = Gravity.CENTER
                     }.lparams(matchParent, 0) {
                         weight = 1f
                     }
                     detail = textView {
-                        text = "Kepolisian Nasional di Indonesia, yang bertanggung jawab langsung di bawah Presiden"
+                        text = resources.getString(R.string.satpol_pp_quote)
                         textColor = Color.WHITE
                     }.lparams(matchParent, 0) {
                         weight = 2f
@@ -140,15 +142,14 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
     }
 
     private fun initialize() {
-        presenter = SatpolppPresenter(this,context)
+        val weak = WeakReference(context)
+        presenter = SatpolppPresenter(this, weak)
         presenter.loadData(favorited)
         adapter = SatpolppAdapter(e, {
             startActivity(
-                intentFor<MapBoxActivity>(
-                    "lat" to it.lat,
-                    "lng" to it.lng,
-                    "name" to it.nama
-                )
+                intentFor<SatpolppDetailActivity>(
+                    "all" to it
+                ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             )
         }, {
             it as Data
@@ -167,6 +168,8 @@ class SatpolPPFragment : Fragment(), AnkoComponent<ViewGroup>, SatpolppView.Main
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        if (::presenter.isInitialized) {
+            presenter.onDestroy()
+        }
     }
 }

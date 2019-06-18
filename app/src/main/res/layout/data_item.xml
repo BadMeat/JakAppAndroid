@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
     <RelativeLayout
+            android:layout_margin="10dp"
             android:id="@id/container_item"
             android:layout_width="match_parent"
             android:background="@color/transparant"
@@ -19,45 +20,69 @@
 
         <ImageView
                 android:id="@id/favorite"
-                android:layout_margin="10dp"
                 android:background="@drawable/favorite"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         <ImageView
-                android:id="@id/gambar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignBottom="@id/jeneng"
+                android:layout_alignTop="@id/jeneng"
+                android:id="@+id/name_tag"
+                android:src="@drawable/nametag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-        <LinearLayout
-                android:layout_margin="10dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical"
+        <TextView
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_toEndOf="@id/name_tag"
+                android:id="@id/jeneng"
+                tools:text="Polisi Jakarta Selatan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@id/jeneng"
-                    tools:text="Alamat Ini Adlaah Iya"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <ImageView
+                android:layout_alignBottom="@id/phone"
+                android:layout_alignTop="@id/phone"
+                android:id="@+id/phone_tag"
+                android:src="@drawable/phonetag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:id="@id/phone"
-                    android:text="@string/kosong"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+        <TextView
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/phone_tag"
+                android:layout_below="@id/jeneng"
+                android:id="@id/phone"
+                android:text="@string/kosong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginBottom="10dp"
-                    android:id="@id/alamat"
-                    tools:text="@string/app_name"
-                    android:textSize="12sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
+        <ImageView
+                android:layout_alignBottom="@id/alamat"
+                android:layout_alignTop="@id/alamat"
+                android:id="@+id/address_tag"
+                android:src="@drawable/locationtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:layout_toEndOf="@id/address_tag"
+                android:layout_below="@id/phone"
+                android:textColor="@android:color/darker_gray"
+                android:id="@id/alamat"
+                tools:text="Jln Sudirma Kuningan jakarta Selatan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
