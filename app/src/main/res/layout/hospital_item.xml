@@ -16,14 +16,6 @@
             android:layout_height="wrap_content">
 
         <ImageView
-                android:id="@id/favorite"
-                android:background="@drawable/favorite"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/image_icon"/>
-
-        <ImageView
                 android:layout_alignBottom="@id/name"
                 android:layout_alignTop="@id/name"
                 android:id="@+id/name_tag"
@@ -132,6 +124,20 @@
                 tools:text="Jl. Kyai Caringin No. 7"
                 android:textColor="@android:color/darker_gray"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@id/favorite"
+                android:background="@drawable/favorite"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/image_icon"/>
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation"
+                app:lottie_fileName="star.json"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

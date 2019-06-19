@@ -19,13 +19,6 @@
             android:layout_height="wrap_content">
 
         <ImageView
-                android:id="@id/favorite"
-                android:background="@drawable/favorite"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        <ImageView
                 android:layout_alignBottom="@id/jeneng"
                 android:layout_alignTop="@id/jeneng"
                 android:id="@+id/name_tag"
@@ -84,5 +77,22 @@
                 tools:text="Jln Sudirma Kuningan jakarta Selatan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+        <ImageView
+                android:id="@id/favorite"
+                android:background="@drawable/favorite"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation"
+                android:visibility="invisible"
+                app:lottie_fileName="spread.json"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@color/transparant"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

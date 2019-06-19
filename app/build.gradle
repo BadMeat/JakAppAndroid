@@ -83,4 +83,7 @@ dependencies {
     implementation('com.mapbox.mapboxsdk:mapbox-android-sdk:6.8.1') {
         exclude group: 'group_name', module: 'module_name'
     }
+
+    //Animation
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }

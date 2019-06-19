@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smartjakapp.R
 import com.example.smartjakapp.db.Favorite
 import com.example.smartjakapp.db.database
@@ -72,6 +74,9 @@ class FavoriteFragment : Fragment() {
         recycler_hospital.adapter = adapterHospital
         recycler_hospital.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapterHospital.notifyDataSetChanged()
+        animateLayout(recycler, adapterPolice)
+        animateLayout(recycler_satpolpp, adapterSatpolpp)
+        animateLayout(recycler_hospital, adapterHospital)
     }
 
     private fun selectFavorite(type: Int, data: MutableList<Favorite>) {
@@ -84,5 +89,10 @@ class FavoriteFragment : Fragment() {
             val favorite = result.parseList(classParser<Favorite>())
             data.addAll(favorite)
         }
+    }
+
+    private fun animateLayout(recycler: RecyclerView, adapter: FavoriteAdapter) {
+        recycler.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_horizontal)
+        adapter.notifyDataSetChanged()
     }
 }

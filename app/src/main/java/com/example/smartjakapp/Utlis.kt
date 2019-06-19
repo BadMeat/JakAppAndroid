@@ -2,6 +2,8 @@ package com.example.smartjakapp
 
 import android.view.View
 import android.widget.ImageView
+import androidx.core.animation.doOnEnd
+import com.airbnb.lottie.LottieAnimationView
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -19,7 +21,14 @@ fun setNullData(data: String?, kosong: String): String? {
     }
 }
 
-fun checkExistDb(favoritedId: List<Int>, id: Int, favorite: ImageView, fav: (Any) -> Unit, unit: Any) {
+fun checkExistDb(
+    favoritedId: List<Int>,
+    id: Int,
+    favorite: ImageView,
+    fav: (Any) -> Unit,
+    unit: Any,
+    animationParam: LottieAnimationView
+) {
 
     var isFavorited = false
 
@@ -35,6 +44,13 @@ fun checkExistDb(favoritedId: List<Int>, id: Int, favorite: ImageView, fav: (Any
         isFavorited = !isFavorited
         if (isFavorited) {
             favorite.setImageResource(R.drawable.favorited)
+            animationParam.visible()
+            animationParam.playAnimation()
+            animationParam.addAnimatorUpdateListener {
+                it.doOnEnd {
+                    animationParam.invisible()
+                }
+            }
         } else {
             favorite.setImageResource(R.drawable.favorite)
         }

@@ -14,6 +14,6 @@
             android:icon="@drawable/hospitaliconpng"/>
     <item
             android:id="@+id/favorite"
-            android:title="@string/hospital"
+            android:title="@string/favorite"
             android:icon="@drawable/favorite"/>
 </menu>

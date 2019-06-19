@@ -42,7 +42,7 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
     MapboxMap.OnMapClickListener {
 
     //1
-    private val REQUEST_CHECK_SETTINGS = 1
+    private val REQUESTCHECKSETTINGS = 1
     var settingsClient: SettingsClient? = null
 
     //2
@@ -142,7 +142,7 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
 
                 if (statusCode == LocationSettingsStatusCodes.RESOLUTION_REQUIRED) {
                     val resolvableException = it as? ResolvableApiException
-                    resolvableException?.startResolutionForResult(this@MapBoxActivity, REQUEST_CHECK_SETTINGS)
+                    resolvableException?.startResolutionForResult(this@MapBoxActivity, REQUESTCHECKSETTINGS)
                 }
             }
         }
@@ -170,7 +170,7 @@ class MapBoxActivity : AppCompatActivity(), PermissionsListener, LocationEngineL
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
+        if (requestCode == REQUESTCHECKSETTINGS) {
             if (resultCode == Activity.RESULT_OK) {
                 enableLocation()
             } else if (resultCode == Activity.RESULT_CANCELED) {

@@ -5,6 +5,7 @@ buildscript {
     ext.navigation_version = '1.0.0'
     ext.anko_version = '0.10.8'
     ext.retrofit_version = '2.4.0'
+    ext.lottieVersion ='3.0.1'
     repositories {
         google()
         jcenter()
